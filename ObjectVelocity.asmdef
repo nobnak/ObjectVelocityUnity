@@ -2,8 +2,8 @@
     "name": "ObjectVelocity",
     "rootNamespace": "",
     "references": [
-        "GUID:50062d9838aa6f245b408563bbba59f6",
-        "GUID:8c3f2385afb509b429c50fdb8c4a80ff"
+        "Gist2",
+        "LLGraphicsUnity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
