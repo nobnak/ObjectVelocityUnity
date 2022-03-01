@@ -9,9 +9,11 @@ namespace ObjectVelocity {
     [ExecuteAlways]
     public class VelocityCam : MonoBehaviour {
 
+        public const string TAG_REPLACEMENT = "Velocity";
+
         public Link link = new Link();
+        public TextureChangedEvents events = new TextureChangedEvents();
         public Tuner tuner = new Tuner();
-        public Events events = new Events();
 
         CameraWrapper manualCam;
         RenderTextureWrapper output;
@@ -23,7 +25,7 @@ namespace ObjectVelocity {
                     var tex = new RenderTexture(size.x, size.y, 24, RenderTextureFormat.ARGBFloat);
                     tex.filterMode = FilterMode.Bilinear;
                     tex.wrapMode = TextureWrapMode.Clamp;
-                    events.OnUpdateVelocityTex.Invoke(tex);
+                    events.OnCreateTex.Invoke(tex);
                     return tex;
                 }
             };
@@ -41,38 +43,52 @@ namespace ObjectVelocity {
                     return c;
                 }
             };
+
+            GlobalTuner = tuner;
         }
         void Update() {
+            var p0 = new Vector4(tuner.power, 1f / Time.deltaTime, 0f, 0f);
+            p0 = new Vector4(tuner.power, tuner.targetFPS, 0f, 0f);
+
             output.Size = link.refCam.Size().LOD(tuner.lod);
-            manualCam.Value.RenderWithShader(link.replacementShader, null);
+
+            Shader.SetGlobalVector(ObjectVelocity.P_0, p0);
+            manualCam.Value.RenderWithShader(link.replacementShader, TAG_REPLACEMENT);
+
+            events.OnUpdateTex?.Invoke(output);
         }
         void OnDestroy() {
             if (output != null) {
+                events.OnUpdateTex.Invoke(null);
                 output.Dispose();
                 output = null;
             }
         }
         #endregion
 
-        #region classes
-        [System.Serializable]
-        public class TextureEvent : UnityEngine.Events.UnityEvent<Texture> {}
+        #region interface
 
+        #region static
+        public static Tuner GlobalTuner { get; set; }
+        #endregion
+
+        #endregion
+
+        #region classes
         [System.Serializable]
         public class Tuner {
             public LayerMask mask = -1;
             public int lod = 0;
+            [Range(0f, 10f)]
+            public float power = 1f;
+            [Range(1f, 30f)]
+            public float targetFPS = 5f;
         }
 
         [System.Serializable]
         public class Link {
             public Camera refCam;
             public Shader replacementShader;
-        }
-
-        [System.Serializable]
-        public class Events {
-            public TextureEvent OnUpdateVelocityTex = new TextureEvent();
         }
         #endregion
     }
