@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870d7467b92a05f4c88eb131e77b2cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 2031607948}
+  tex: {fileID: 1998668239}
   tuner:
     channel: 0
     srcBlend: 1
@@ -543,6 +543,9 @@ MonoBehaviour:
     windowIsOpen: 1
     texShare: 0.2
     texGap: 10
+    compactList: 1
+    fullscreen: 0
+    fullscreenTarget: 0
   textures:
   - {fileID: 1624944129}
   - {fileID: 100400119}
@@ -665,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870d7467b92a05f4c88eb131e77b2cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 1174731238}
+  tex: {fileID: 932891467}
   tuner:
     channel: 0
     srcBlend: 1
@@ -806,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870d7467b92a05f4c88eb131e77b2cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 1127767783}
+  tex: {fileID: 825455728}
   tuner:
     channel: 0
     srcBlend: 1
@@ -825,7 +828,7 @@ Transform:
   m_Father: {fileID: 1119721126}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &2031607948
+--- !u!84 &1998668239
 RenderTexture:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -839,8 +842,8 @@ RenderTexture:
   m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 0
   serializedVersion: 3
-  m_Width: 1095
-  m_Height: 668
+  m_Width: 1293
+  m_Height: 677
   m_AntiAliasing: 1
   m_MipCount: -1
   m_DepthFormat: 2
