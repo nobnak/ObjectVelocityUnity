@@ -23,6 +23,7 @@ namespace ObjectVelocity {
                     var tex = new RenderTexture(size.x, size.y, 0, RenderTextureFormat.ARGBHalf);
                     tex.wrapMode = TextureWrapMode.Clamp;
                     tex.filterMode = FilterMode.Bilinear;
+                    tex.hideFlags = HideFlags.DontSave;
                     events.OnCreateTex.Invoke(tex);
                     return tex;
                 },
