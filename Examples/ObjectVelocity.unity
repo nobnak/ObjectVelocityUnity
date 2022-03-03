@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870d7467b92a05f4c88eb131e77b2cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 932891467}
+  tex: {fileID: 0}
   tuner:
     channel: 0
     srcBlend: 1
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870d7467b92a05f4c88eb131e77b2cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tex: {fileID: 825455728}
+  tex: {fileID: 0}
   tuner:
     channel: 0
     srcBlend: 1
