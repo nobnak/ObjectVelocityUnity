@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Gist2",
-        "LLGraphicsUnity"
+        "LLGraphicsUnity",
+        "AffineDecomposition"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
