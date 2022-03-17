@@ -4,7 +4,8 @@
     "references": [
         "Gist2",
         "LLGraphicsUnity",
-        "AffineDecomposition"
+        "AffineDecomposition",
+        "Unity.Mathematics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

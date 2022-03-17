@@ -1,4 +1,6 @@
-using Gist2.Math.Primitives;
+using AffineDecomposition;
+using AffineDecomposition.Model;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ObjectVelocity {
@@ -14,34 +16,29 @@ namespace ObjectVelocity {
 		Renderer rend;
 		MaterialPropertyBlock block;
 
-		TRSMatrix smoothedLastCameraMatrix;
-		TRSMatrix smoothedLastParentMatrix;
-		TRSMatrix smoothedLastObjectMatrix;
+		MVCache view;
+		TRS model;
 
 		#region Unity
 		protected virtual void OnEnable() {
 			rend = GetComponent<Renderer>();
-
+			view = GetComponentInParent<MVCache>();
+			if (view == null) view = transform.parent.gameObject.AddComponent<MVCache>();
+			
 			block = new MaterialPropertyBlock();
 
-			smoothedLastCameraMatrix = Camera.main.transform;
-			smoothedLastObjectMatrix = transform;
-			smoothedLastParentMatrix = (transform.parent != null) ? transform.parent : TRSMatrix.Identity;
+			model = transform;
 
 			if (layer >= 0) rend.gameObject.layer = layer;
-
 		}
 		protected virtual void Update () {
-			var t = Mathf.Clamp01(Time.deltaTime * VelocityCam.GlobalTuner.targetFPS);
-			smoothedLastObjectMatrix = TRSMatrix.Lerp(smoothedLastObjectMatrix, transform, t);
-			smoothedLastCameraMatrix = TRSMatrix.Lerp(smoothedLastCameraMatrix, Camera.main.transform, t);
-			if (transform.parent != null)
-				smoothedLastParentMatrix = TRSMatrix.Lerp(smoothedLastParentMatrix, transform.parent, t);
-			var prev = GetWorldToCameraMatrix(smoothedLastCameraMatrix)
-				* smoothedLastParentMatrix * smoothedLastObjectMatrix;
+			var t = math.clamp(Time.deltaTime * VelocityCam.GlobalTuner.targetFPS, 0f, 1f);
+			model = TRS.Lerp(model, transform, t);
+
+			var mv = math.mul((float4x4)view.GetPast(), model);
 
 			rend.GetPropertyBlock(block);
-			block.SetMatrix(P_PrevMV, prev);
+			block.SetMatrix(P_PrevMV, mv);
 			rend.SetPropertyBlock(block);
     	}
         private void OnDisable() {
@@ -50,17 +47,6 @@ namespace ObjectVelocity {
 		#endregion
 
 		#region interface
-
-		#region static
-		public static Matrix4x4 GetWorldToCameraMatrix(TRSMatrix trscam)
-			=> Matrix4x4.Inverse(Matrix4x4.TRS(
-				trscam.position,
-				trscam.rotation,
-				new Vector3(1f, 1f, -1f)
-				));
-        #endregion
-
-        public Matrix4x4 ModelView => Camera.main.worldToCameraMatrix * transform.localToWorldMatrix;
-        #endregion
+		#endregion
     }
 }
